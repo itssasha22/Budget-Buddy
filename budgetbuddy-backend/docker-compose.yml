@@ -1,0 +1,77 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:16-alpine
+    container_name: budgetbuddy_db
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: budgetbuddy
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  redis:
+    image: redis:7-alpine
+    container_name: budgetbuddy_redis
+    restart: always
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  web:
+    build: .
+    container_name: budgetbuddy_web
+    restart: always
+    ports:
+      - "8000:8000"
+    volumes:
+      - .:/workspace
+    environment:
+      - DATABASE_URL=postgresql+asyncpg://postgres:postgres@db:5432/budgetbuddy
+      - REDIS_URL=redis://redis:6379/0
+      - JWT_SECRET_KEY=9s8d6f78gh9j0k234l5m6n7o8p9q0r1s2t3u4v5w6x7y8z9a
+      - ACCESS_TOKEN_EXPIRE_MINUTES=60
+      - ENVIRONMENT=dev
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+
+  worker:
+    build: .
+    container_name: budgetbuddy_worker
+    restart: always
+    command: celery -A app.workers.celery_app.celery worker --loglevel=info
+    volumes:
+      - .:/workspace
+    environment:
+      - DATABASE_URL=postgresql+asyncpg://postgres:postgres@db:5432/budgetbuddy
+      - REDIS_URL=redis://redis:6379/0
+      - JWT_SECRET_KEY=9s8d6f78gh9j0k234l5m6n7o8p9q0r1s2t3u4v5w6x7y8z9a
+      - ACCESS_TOKEN_EXPIRE_MINUTES=60
+      - ENVIRONMENT=dev
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+
+volumes:
+  postgres_data:
+  redis_data:
