@@ -11,12 +11,9 @@ import {
   CheckCircle,
   HelpCircle
 } from 'lucide-react';
-import { TransactionCategory } from '../types/finance';
-
 export const DashboardView: React.FC = () => {
   const { 
     transactions, 
-    budgets, 
     bills, 
     savingsGoals, 
     insights, 

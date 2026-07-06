@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { useFinance } from '../context/FinanceContext';
 import { Target, Calendar, Sparkles, Plus, Landmark, ArrowUpRight } from 'lucide-react';
-import { SavingsGoal } from '../types/finance';
 
 export const SavingsView: React.FC = () => {
   const { savingsGoals, addSavingsGoal, updateSavingsProgress } = useFinance();

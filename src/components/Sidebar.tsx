@@ -5,23 +5,13 @@ import {
   Receipt, 
   PiggyBank, 
   CalendarClock, 
-  TrendingUp, 
   Sparkles, 
   RotateCcw,
-  ShieldCheck,
-  TrendingDown
+  ShieldCheck
 } from 'lucide-react';
 
 export const Sidebar: React.FC = () => {
-  const { activeView, setActiveView, resetAll, healthScore, transactions } = useFinance();
-
-  const totalIncome = transactions
-    .filter(t => t.type === 'income')
-    .reduce((sum, t) => sum + t.amount, 0);
-  const totalExpense = transactions
-    .filter(t => t.type === 'expense')
-    .reduce((sum, t) => sum + t.amount, 0);
-  const savings = totalIncome - totalExpense;
+  const { activeView, setActiveView, resetAll, healthScore } = useFinance();
 
   const menuItems = [
     { id: 'dashboard', label: 'Dashboard', icon: LayoutDashboard },

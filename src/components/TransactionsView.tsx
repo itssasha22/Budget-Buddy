@@ -11,7 +11,7 @@ import {
   Volume2,
   FileSpreadsheet
 } from 'lucide-react';
-import { TransactionCategory } from '../types/finance';
+import type { TransactionCategory } from '../types/finance';
 
 export const TransactionsView: React.FC = () => {
   const { 

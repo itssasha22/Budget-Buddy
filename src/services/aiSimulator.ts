@@ -1,4 +1,4 @@
-import { 
+import type { 
   Transaction, 
   TransactionCategory, 
   Budget, 
@@ -130,7 +130,7 @@ export function calculateFinancialHealthScore(
 export function generateSpendingInsights(
   transactions: Transaction[],
   budgets: Budget[],
-  bills: Bill[]
+  _bills: Bill[]
 ): SpendingInsight[] {
   const insights: SpendingInsight[] = [];
   const now = new Date().toISOString();
@@ -245,7 +245,7 @@ export function generateSpendingInsights(
 
 // Generate Notifications dynamically based on financial activity
 export function getTriggeredNotifications(
-  transactions: Transaction[],
+  _transactions: Transaction[],
   budgets: Budget[],
   bills: Bill[]
 ): FinanceNotification[] {

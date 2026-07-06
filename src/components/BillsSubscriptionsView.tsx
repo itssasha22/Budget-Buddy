@@ -5,19 +5,16 @@ import {
   Check, 
   X, 
   AlertOctagon, 
-  Trash2, 
   Plus, 
-  Sparkles,
-  ExternalLink
+  Sparkles
 } from 'lucide-react';
-import { Bill } from '../types/finance';
+import type { Bill } from '../types/finance';
 
 export const BillsSubscriptionsView: React.FC = () => {
   const { 
     bills, 
     toggleBillPaid, 
-    transactions, 
-    addTransaction 
+    transactions
   } = useFinance();
 
   const [activeTab, setActiveTab] = useState<'bills' | 'subs'>('bills');
@@ -32,9 +29,6 @@ export const BillsSubscriptionsView: React.FC = () => {
   const [billDueDate, setBillDueDate] = useState('');
   const [billCategory, setBillCategory] = useState('Utilities');
 
-  // Filter bills & subscriptions
-  const activeBills = bills.sort((a, b) => new Date(a.dueDate).getTime() - new Date(b.dueDate).getTime());
-  
   // Derive subscriptions from transactions where isSubscription = true
   // Let's filter transaction list for unique active subscriptions
   const uniqueSubs = transactions.filter(t => t.isSubscription);

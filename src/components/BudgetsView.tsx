@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { useFinance } from '../context/FinanceContext';
-import { PiggyBank, Edit3, HelpCircle, ShieldCheck, AlertTriangle } from 'lucide-react';
-import { Budget } from '../types/finance';
+import { PiggyBank, Edit3, ShieldCheck, AlertTriangle } from 'lucide-react';
+import type { Budget } from '../types/finance';
 
 export const BudgetsView: React.FC = () => {
-  const { budgets, updateBudgetLimit, transactions } = useFinance();
+  const { budgets, updateBudgetLimit } = useFinance();
   const [editingCategory, setEditingCategory] = useState<string | null>(null);
   const [tempLimit, setTempLimit] = useState('');
 
@@ -135,7 +135,7 @@ export const BudgetsView: React.FC = () => {
           <div className="advisor-content">
             <div className="advisor-tip">
               <span className="tip-number">01</span>
-              <p className="tip-text">Your <strong>Entertainment</strong> budget is at {getPercent(budgets.find(b => b.category === 'Entertainment') || {limit: 1, spent: 0})}% of its limit. Consider holding off on new streaming subscriptions until next month.</p>
+              <p className="tip-text">Your <strong>Entertainment</strong> budget is at {getPercent(budgets.find(b => b.category === 'Entertainment') || { category: 'Entertainment', limit: 120, spent: 0 })}% of its limit. Consider holding off on new streaming subscriptions until next month.</p>
             </div>
 
             <div className="advisor-tip">

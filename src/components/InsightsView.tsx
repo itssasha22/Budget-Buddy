@@ -1,9 +1,9 @@
 import React from 'react';
 import { useFinance } from '../context/FinanceContext';
-import { Sparkles, Lightbulb, TrendingUp, HelpCircle, ShieldAlert } from 'lucide-react';
+import { Sparkles, Lightbulb, TrendingUp, ShieldAlert } from 'lucide-react';
 
 export const InsightsView: React.FC = () => {
-  const { insights, transactions, budgets } = useFinance();
+  const { insights, transactions } = useFinance();
 
   const expenses = transactions.filter(t => t.type === 'expense');
   const totalExpense = expenses.reduce((sum, t) => sum + t.amount, 0);
